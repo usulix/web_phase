@@ -2,10 +2,10 @@
 
 import Behavior from './behavior';
 
-const MAX_VEL = 600;
-const DRAG = 1200;
-const EPSILON = 16;
-const EASE = (k) => Math.sin(Math.PI * k) * 2;
+const MAX_VEL = 400;
+const MAX_ACCEL = 1000;
+const DRAG = 2400;
+const EPSILON = 64;
 
 export default class PlayerMove extends Behavior {
   constructor() {
@@ -16,8 +16,8 @@ export default class PlayerMove extends Behavior {
 
   added(player) {
     this.player = player;
-    // player.body.maxVelocity.setTo(MAX_VEL);
-    // player.body.drag.setTo(DRAG);
+    player.body.maxVelocity.setTo(MAX_VEL);
+    player.body.drag.setTo(DRAG);
     this.target.x = player.x;
     this.target.y = player.y;
     player.game.input.onTap.add(this.onTap, this);
@@ -27,6 +27,8 @@ export default class PlayerMove extends Behavior {
     this.target.x = pointer.worldX;
     this.target.y = pointer.worldY;
     this.maxDistance = this.player.position.distance(this.target);
+    this.stopAccelDistance = this.maxDistance / 4;
+    this.player.game.physics.arcade.accelerateToXY(this.player, this.target.x, this.target.y, MAX_ACCEL);
   }
 
   update(player) {
@@ -35,21 +37,9 @@ export default class PlayerMove extends Behavior {
     }
     let body = player.body;
     let target = this.target;
-    let maxDistance = this.maxDistance;
     let currentDistance = player.position.distance(target);
-
-    this.angleForMove.set(target.x - player.x, target.y - player.y);
-    this.angleForMove.normalize();
-    if (currentDistance > EPSILON) {
-      console.log((maxDistance - currentDistance) / maxDistance);
-      let factor = EASE((maxDistance - currentDistance) / maxDistance) + 0.1;
-      console.log(factor);
-      // Move toward target.
-      // this.angleForMove.rotate(0, 0, 5, true);
-      // TODO: proportional to distance to target
-      this.angleForMove.multiply(MAX_VEL * factor, MAX_VEL * factor);
+    if (currentDistance < this.stopAccelDistance) {
+      player.body.acceleration.set(0);
     }
-    body.velocity.x = this.angleForMove.x;
-    body.velocity.y = this.angleForMove.y;
   }
 }
