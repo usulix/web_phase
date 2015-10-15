@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --content-base build/ -d --progress",
     "build": "webpack --progress --colors -p",
+    "predeploy": "rm -rf dist/ && mkdir dist",
+    "deploy": "npm run build && surge",
     "lint": "eslint src/ --fix"
   },
   "repository": {

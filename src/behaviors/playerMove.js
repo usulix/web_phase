@@ -5,7 +5,6 @@ import Behavior from './behavior';
 const MAX_VEL = 400;
 const MAX_ACCEL = 1000;
 const DRAG = 2400;
-const EPSILON = 64;
 
 export default class PlayerMove extends Behavior {
   constructor() {
@@ -35,7 +34,6 @@ export default class PlayerMove extends Behavior {
     if (!player.alive) {
       return;
     }
-    let body = player.body;
     let target = this.target;
     let currentDistance = player.position.distance(target);
     if (currentDistance < this.stopAccelDistance) {
