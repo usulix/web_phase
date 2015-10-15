@@ -1,5 +1,8 @@
 'use strict';
 
+require('../index.html');
+require('../vendor/phaser.min.js');
+
 var Boot = require('./states/boot');
 var Preload = require('./states/preload');
 var Intro = require('./states/intro');

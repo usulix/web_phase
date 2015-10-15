@@ -4,10 +4,9 @@
   "description": "A sneaky thief game written in Phaser.",
   "main": "index.html",
   "scripts": {
-    "start": "wzrd src/game.js:game.js -p 8080 -- -d",
-    "lint": "eslint src/ --fix",
-    "predeploy": "rm -rf dist && mkdir -p dist/vendor",
-    "deploy": "cp *.html dist && cp vendor/phaser.min.js dist/vendor && browserify src/game.js -o dist/game.js && cp -R media dist/media && cp CNAME dist && surge dist/"
+    "start": "webpack-dev-server --content-base build/ -d --progress",
+    "build": "webpack --progress --colors -p",
+    "lint": "eslint src/ --fix"
   },
   "repository": {
     "type": "git",
@@ -18,17 +17,17 @@
   "homepage": "https://github.com/drhayes/sneaker.git",
   "devDependencies": {
     "babel-eslint": "^4.1.3",
-    "babelify": "^6.3.0",
-    "brfs": "^1.4.1",
-    "browserify": "^11.1.0",
-    "eslint": "^1.5.1",
-    "js-yaml": "^3.4.2",
-    "wzrd": "^1.3.1"
+    "eslint": "^1.5.1"
   },
-  "browserify": {
-    "transform": [
-      "babelify",
-      "brfs"
-    ]
+  "dependencies": {
+    "babel-core": "^5.8.25",
+    "babel-loader": "^5.3.2",
+    "copy-loader": "^0.1.3",
+    "file-loader": "^0.8.4",
+    "image-webpack-loader": "^1.6.1",
+    "imagemin": "^3.2.0",
+    "script-loader": "^0.6.1",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0"
   }
 }
