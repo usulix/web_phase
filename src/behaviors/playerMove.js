@@ -4,8 +4,8 @@ import Behavior from './behavior';
 
 const MAX_VEL = 600;
 const DRAG = 1200;
-const EPSILON = 32;
-const EASE = (k) => Math.sin(2 * Math.PI * k);
+const EPSILON = 16;
+const EASE = (k) => Math.sin(Math.PI * k) * 2;
 
 export default class PlayerMove extends Behavior {
   constructor() {
@@ -41,6 +41,7 @@ export default class PlayerMove extends Behavior {
     this.angleForMove.set(target.x - player.x, target.y - player.y);
     this.angleForMove.normalize();
     if (currentDistance > EPSILON) {
+      console.log((maxDistance - currentDistance) / maxDistance);
       let factor = EASE((maxDistance - currentDistance) / maxDistance) + 0.1;
       console.log(factor);
       // Move toward target.
